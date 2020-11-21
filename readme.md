@@ -85,8 +85,8 @@
 >     `~/catkin_ws/src/HRI-Hand-ROS/hri_hand_control/script/hri_joint_state_pub.py`のstmserをコメントアウト
 > 
 > - ### pathが通っていいない
->     RLException: [hri_hand_control.launch] is neither a launch file in package [hri_hand_control] nor is [hri_hand_control] a launch file name
-The traceback for the exception was written to the log file
+>     `RLException: [hri_hand_control.launch] is neither a launch file in package [hri_hand_control] nor is [hri_hand_control] a launch file name
+The traceback for the exception was written to the log file` <br>
 >     これに対しては
 >     ```
 >     $ source ~/catkin_ws/devel/setup.bash
