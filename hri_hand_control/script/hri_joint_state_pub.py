@@ -462,7 +462,7 @@ class HJ_hand_tf():
         if send_pris_val < 0:
             pass
         else:                        
-            stmser.send_signal(stm_index_id, send_pris_val)
+            pass# stmser.send_signal(stm_index_id, send_pris_val)
             #stmser.send_signal(ssss, 0x01)
             #ssss = 0x01 + 1
 
@@ -480,7 +480,7 @@ class HJ_hand_tf():
         if send_pris_val < 0:
             pass
         else:                        
-            stmser.send_signal(stm_index_id, send_pris_val)
+            pass# stmser.send_signal(stm_index_id, send_pris_val)
             #stmser.send_signal(ssss, 0x01)
             #ssss = 0x01 + 1
 
@@ -498,7 +498,7 @@ class HJ_hand_tf():
         if send_pris_val < 0:
             pass
         else:                        
-            stmser.send_signal(stm_index_id, send_pris_val)
+            pass# stmser.send_signal(stm_index_id, send_pris_val)
             #stmser.send_signal(ssss, 0x01)
             #ssss = 0x01 + 1            
 
@@ -516,7 +516,7 @@ class HJ_hand_tf():
         if send_pris_val < 0:
             pass
         else:                        
-            stmser.send_signal(stm_index_id, send_pris_val)
+            pass# stmser.send_signal(stm_index_id, send_pris_val)
             #stmser.send_signal(ssss, 0x01)
             #ssss = 0x01 + 1            
 
@@ -530,7 +530,7 @@ class HJ_hand_tf():
         if stm_pris_val < 0:
             pass
         else:                        
-            stmser.send_signal(my_motor_id, stm_pris_val)
+            pass# stmser.send_signal(my_motor_id, stm_pris_val)
 
     def hj_finger_mode01(self):
         """
@@ -570,7 +570,7 @@ class HJ_hand_tf():
 
 if __name__ == '__main__':
     hj_tf = HJ_hand_tf()
-    stmser = STM_serial()
+    # stmser = STM_serial()
 
     print ">> if you ready, press the Enter"
     raw_input()
