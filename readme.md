@@ -117,6 +117,6 @@ The traceback for the exception was written to the log file` <br>
 >    ```
 >    $ sudo chmod 666 /dev/ttyACM0 (/dev/USB0)
 >    ```
->    してからシリアルポート有効化してvirtualbox起動
+>    してからシリアルポート有効化してvirtualbox起動。
 
 
