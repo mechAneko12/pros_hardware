@@ -16,7 +16,7 @@ class STM_serial():
     def __init__(self):
         self.rx_data = 0
         self.tx_data = 0
-        self.PORT = '/dev/ttyUSB0'
+        self.PORT = '/dev/ttyACM0'
         self.BaudRate = 115200
 
         #print 'serial', serial.__version__
@@ -52,7 +52,7 @@ class HJ_hand_tf():
         hj_tf.thumb_talker()
        
     """
-    def __init__(self):
+    def __init__(self, flag):
         self.pub = rospy.Publisher('joint_states', JointState, queue_size=10)
         rospy.init_node('hj_joint_state_publisher')
         self.rate = rospy.Rate(30) # 60hz
@@ -137,6 +137,8 @@ class HJ_hand_tf():
         self.li_bend_flag = 0   #little finger
         self.th_bend_flag = 0   #thumb finger
         self.thj_bend_flag = 0  #thumb joint finger
+
+        self.flag = flag
 
     def all_finger_action(self, pris_val):
         """
@@ -461,8 +463,8 @@ class HJ_hand_tf():
         
         if send_pris_val < 0:
             pass
-        else:                        
-            pass# stmser.send_signal(stm_index_id, send_pris_val)
+        elif self.flag:                        
+            stmser.send_signal(stm_index_id, send_pris_val)
             #stmser.send_signal(ssss, 0x01)
             #ssss = 0x01 + 1
 
@@ -479,8 +481,8 @@ class HJ_hand_tf():
         
         if send_pris_val < 0:
             pass
-        else:                        
-            pass# stmser.send_signal(stm_index_id, send_pris_val)
+        elif self.flag:                        
+            stmser.send_signal(stm_index_id, send_pris_val)
             #stmser.send_signal(ssss, 0x01)
             #ssss = 0x01 + 1
 
@@ -497,8 +499,8 @@ class HJ_hand_tf():
         
         if send_pris_val < 0:
             pass
-        else:                        
-            pass# stmser.send_signal(stm_index_id, send_pris_val)
+        elif self.flag:                        
+            stmser.send_signal(stm_index_id, send_pris_val)
             #stmser.send_signal(ssss, 0x01)
             #ssss = 0x01 + 1            
 
@@ -516,7 +518,7 @@ class HJ_hand_tf():
         if send_pris_val < 0:
             pass
         else:                        
-            pass# stmser.send_signal(stm_index_id, send_pris_val)
+            stmser.send_signal(stm_index_id, send_pris_val)
             #stmser.send_signal(ssss, 0x01)
             #ssss = 0x01 + 1            
 
@@ -529,8 +531,8 @@ class HJ_hand_tf():
 
         if stm_pris_val < 0:
             pass
-        else:                        
-            pass# stmser.send_signal(my_motor_id, stm_pris_val)
+        elif self.flag:                        
+            stmser.send_signal(my_motor_id, stm_pris_val)
 
     def hj_finger_mode01(self):
         """
@@ -569,8 +571,12 @@ class HJ_hand_tf():
 
 
 if __name__ == '__main__':
-    hj_tf = HJ_hand_tf()
-    # stmser = STM_serial()
+    flag = True
+    if flag:
+        stmser = STM_serial()
+    else:
+        pass
+    hj_tf = HJ_hand_tf(flag)
 
     print ">> if you ready, press the Enter"
     raw_input()
