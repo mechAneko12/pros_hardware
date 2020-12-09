@@ -72,7 +72,7 @@ class BT(object):
     def __init__(self, tty):
         self.ser = serial.Serial(port=tty, baudrate=9600, dsrdtr=1)
         self.buf = []
-        self.lock = threading.Lock()
+        #self.lock = threading.Lock()
         self.handlers = []
 
     ## internal data-handling methods
@@ -235,7 +235,7 @@ class MyoRaw(object):
         _, _, _, _, v0, v1, v2, v3 = unpack('BHBBHHHH', fw.payload)
         print('firmware version: %d.%d.%d.%d' % (v0, v1, v2, v3))
 
-        self.old = (v0 == 0)
+        self.old = True
 
         if self.old:
             ## don't know what these do; Myo Connect sends them, though we get data
@@ -247,7 +247,7 @@ class MyoRaw(object):
             self.write_attr(0x35, b'\x01\x00')
 
             ## enable EMG data
-            self.write_attr(0x28, b'\x01\x00')
+            #self.write_attr(0x28, b'\x01\x00')
             ## enable IMU data
             self.write_attr(0x1d, b'\x01\x00')
 
@@ -264,7 +264,8 @@ class MyoRaw(object):
             imu_hz = 50
 
             ## send sensor parameters, or we don't get any data
-            self.write_attr(0x19, pack('BBBBHBBBBB', 2, 9, 2, 1, C, emg_smooth, C // emg_hz, imu_hz, 0, 0))
+            #self.write_attr(0x19, pack('BBBBHBBBBB', 2, 9, 2, 1, C, emg_smooth, C // emg_hz, imu_hz, 0, 0))
+            self.write_attr(0x19, b"\x01\03\03\01\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
 
         else:
             name = self.read_attr(0x03)
@@ -284,10 +285,11 @@ class MyoRaw(object):
 
             c, attr, typ = unpack('BHB', p.payload[:4])
             pay = p.payload[5:]
+            #print(attr)
 
-            if attr == 0x27:
+            if attr in [0x2b, 0x2e, 0x31, 0x34]:
                 #print(p)
-                vals = unpack('16bB', pay)
+                vals = unpack('16b', pay)
                 ## not entirely sure what the last byte is, but it's a bitmask that
                 ## seems to indicate which sensors think they're being moved around or
                 ## something
@@ -296,8 +298,7 @@ class MyoRaw(object):
                 if (self.acc_tmp is not None) and (self.gyro_tmp is not None):
                     self.acc_array.append(self.acc_tmp)
                     self.gyro_array.append(self.gyro_tmp)
-                print(self.emg_array[0])
-                moving = vals[16]
+                print(vals)
 
             elif attr == 0x1c:
                 vals = unpack('10h', pay)
@@ -382,7 +383,7 @@ class MyoRaw(object):
 
 
 if __name__ == '__main__':
-    m = MyoRaw(32, sys.argv[1] if len(sys.argv) >= 2 else None)
+    m = MyoRaw(32, tty='/dev/ttyACM0')
 
     m.connect()
 

@@ -119,4 +119,16 @@ The traceback for the exception was written to the log file` <br>
 >    ```
 >    してからシリアルポート有効化してvirtualbox起動。
 
+## ***ROS with Myo***
+>   ```
+>   $ ls -l /dev/serial/by-id/
+>   ```
+>   アドレスがあっているか確認した後、
+>   chmod u+x /dev/tty
+>   PyoManager.pyc
+>   launch
+>   hri_joint_state_pub.py
+
+>   今のままだとctrl+z からのkillしないと止まらない
+
 

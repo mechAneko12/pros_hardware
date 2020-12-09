@@ -16,7 +16,7 @@ class STM_serial():
     def __init__(self):
         self.rx_data = 0
         self.tx_data = 0
-        self.PORT = '/dev/ttyACM0'
+        self.PORT = '/dev/ttyACM1'
         self.BaudRate = 115200
 
         #print 'serial', serial.__version__
@@ -579,7 +579,21 @@ if __name__ == '__main__':
     hj_tf = HJ_hand_tf(flag)
 
     print ">> if you ready, press the Enter"
+    from myo_collector import MyoRaw
+    import sys
+    m = MyoRaw(32, tty='/dev/ttyACM0')
+
+    m.connect()
     raw_input()
+    try:
+        while True:
+            m.run(1)
+
+    except KeyboardInterrupt:
+        m.disconnect()
+        sys.exit(0)
+    finally:
+        print()
     stm_index_id = 0x01
     stm_middle_id = 0x02
     stm_ring_id = 0x03
