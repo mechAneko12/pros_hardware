@@ -4,7 +4,7 @@
   
   
    <!--node name="hj_joint_state_publisher" pkg="hj_hand_control" type="hj_joint_state.py"/ joint state gui origin code -->
-   <node name="hri_joint_state_publisher" pkg="hri_hand_control" type="hri_joint_state_pub.py"/>
+   <!--node name="hri_joint_state_publisher" pkg="hri_hand_control" type="hri_joint_state_pub.py"/-->
    <param name="robot_description" command="$(find xacro)/xacro $(arg model) --inorder" />
    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
   

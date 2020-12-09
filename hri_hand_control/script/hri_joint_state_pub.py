@@ -6,6 +6,7 @@
 ## rosrun hri_hand_control hri_joint_state_pub.py
 
 
+from rsp import rock_scissors_paper, control
 import rospy, time, tf
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Header
@@ -13,10 +14,10 @@ from std_msgs.msg import Header
 import serial
 
 class STM_serial():
-    def __init__(self):
+    def __init__(self, PORT):
         self.rx_data = 0
         self.tx_data = 0
-        self.PORT = '/dev/ttyACM1'
+        self.PORT = PORT
         self.BaudRate = 115200
 
         #print 'serial', serial.__version__
@@ -570,87 +571,30 @@ class HJ_hand_tf():
 
 
 
+
 if __name__ == '__main__':
-    flag = True
+    flag = False
     if flag:
-        stmser = STM_serial()
+        stmser = STM_serial('/dev/ttyACM0')
+        hj_tf = HJ_hand_tf(flag)
+        from myo_collector import MyoRaw
+        import sys
+        m = MyoRaw(32, tty='/dev/ttyACM1')
+
+        m.connect()
+        while not rospy.is_shutdown():
+            m.run(1)
+        m.disconnect()
+
     else:
-        pass
-    hj_tf = HJ_hand_tf(flag)
+        hj_tf = HJ_hand_tf(flag)
 
     print ">> if you ready, press the Enter"
-    from myo_collector import MyoRaw
-    import sys
-    m = MyoRaw(32, tty='/dev/ttyACM0')
-
-    m.connect()
     raw_input()
-    try:
-        while True:
-            m.run(1)
-
-    except KeyboardInterrupt:
-        m.disconnect()
-        sys.exit(0)
-    finally:
-        print()
-    stm_index_id = 0x01
-    stm_middle_id = 0x02
-    stm_ring_id = 0x03
-    stm_little_id = 0x04
-    stm_thumb_id = 0x05
-    stm_thumb_joint_id = 0x06
-
-    index_pris_val = 0.0
-    middle_pris_val = 0.012
-    ring_pris_val = 0.012
-    little_pris_val = 0.012
-    thumb_pris_val = 0.012
-    thumb_joint_pris_val = 0.012
-
-    #main_bend_flag = 0
     
-    
-    hj_tf.index_control(0.012)
-    hj_tf.hj_finger_control(stm_index_id, 0.012)
-    time.sleep(0.5)
-    hj_tf.index_control(0.0)
-    hj_tf.hj_finger_control(stm_index_id, 0.0)
-    time.sleep(0.5)
-
-    hj_tf.middle_control(0.012)
-    hj_tf.hj_finger_control(stm_middle_id, 0.012)
-    time.sleep(0.5)
-    hj_tf.middle_control(0.0)
-    hj_tf.hj_finger_control(stm_middle_id, 0.0)
-    time.sleep(0.5)
-
-    hj_tf.ring_control(0.012)
-    hj_tf.hj_finger_control(stm_ring_id, 0.012)
-    time.sleep(0.5)
-    hj_tf.ring_control(0.0)
-    hj_tf.hj_finger_control(stm_ring_id, 0.0)
-    time.sleep(0.5)
-
-    hj_tf.little_control(0.012)
-    hj_tf.hj_finger_control(stm_little_id, 0.012)
-    time.sleep(0.5)
-    hj_tf.little_control(0.0)
-    hj_tf.hj_finger_control(stm_little_id, 0.0)
-    time.sleep(0.5)
-
-    hj_tf.thumb_joint_control(0.012)
-    hj_tf.hj_finger_control(stm_thumb_joint_id, 0.012)
-    time.sleep(0.5)
-    hj_tf.thumb_control(0.012)
-    hj_tf.hj_finger_control(stm_thumb_id, 0.012)
-    time.sleep(0.5)
-
-    hj_tf.thumb_control(0.0)
-    hj_tf.hj_finger_control(stm_thumb_id, 0.0)
-    time.sleep(0.5)
-    hj_tf.thumb_joint_control(0.0)
-    hj_tf.hj_finger_control(stm_thumb_joint_id, 0.0)
-    time.sleep(0.5)
-
+    rsp = rock_scissors_paper()
+    while not rospy.is_shutdown():
+        fingers_state = rsp(3)
+        c = control(hj_tf)
+        c.move(fingers_state)
         
