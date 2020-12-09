@@ -593,8 +593,8 @@ if __name__ == '__main__':
     raw_input()
     
     rsp = rock_scissors_paper()
+    c = control(hj_tf)
     while not rospy.is_shutdown():
-        fingers_state = rsp(3)
-        c = control(hj_tf)
+        fingers_state = rsp(1)
         c.move(fingers_state)
         
