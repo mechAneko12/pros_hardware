@@ -1,6 +1,6 @@
 import time
 
-class rock_scissors_paper:
+class rock_paper_scissors:
     def __init__(self, MIN=0, MAX=0.012, velocity=0.0005):
         self.fingers_state = {'index_control' : None,
                              'middle_control' : None,
@@ -15,16 +15,16 @@ class rock_scissors_paper:
         self.MAX = MAX
         self.velocity = velocity
 
-    def __call__(self, num):
-        self.condition(num)
+    def __call__(self, hand):
+        self.rps(hand)
         return self.fingers_state
 
-    def condition(self, num):
-        if num == 0:
+    def rps(self, hand):
+        if hand == 0:
             self.normal()
-        elif num == 1:
+        elif hand == 1:
             self.rock()
-        elif num == 2:
+        elif hand == 2:
             self.scissors()
         else:
             self.paper()
@@ -43,6 +43,11 @@ class rock_scissors_paper:
             if self.fingers_state[i] < self.MAX:
                 self.fingers_state[i] += self.velocity
 
+    def paper(self):
+        for i, m in self.fingers_state.items():
+            if self.fingers_state[i] > self.MIN:
+                self.fingers_state[i] -= self.velocity
+
     def scissors(self):
         for i, m in self.fingers_state.items():
             if i == 'index_control' or i == 'middle_control':
@@ -51,11 +56,6 @@ class rock_scissors_paper:
             else:
                 if self.fingers_state[i] < self.MAX:
                     self.fingers_state[i] += self.velocity
-
-    def paper(self):
-        for i, m in self.fingers_state.items():
-            if self.fingers_state[i] > self.MIN:
-                self.fingers_state[i] -= self.velocity
 
 
 class control:

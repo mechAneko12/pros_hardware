@@ -6,7 +6,7 @@
 ## rosrun hri_hand_control hri_joint_state_pub.py
 
 
-from rsp import rock_scissors_paper, control
+from rps import rock_paper_scissors, control
 import rospy, time, tf
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Header
@@ -592,7 +592,7 @@ if __name__ == '__main__':
     print ">> if you ready, press the Enter"
     raw_input()
     
-    rsp = rock_scissors_paper()
+    rsp = rock_paper_scissors()
     c = control(hj_tf)
     while not rospy.is_shutdown():
         fingers_state = rsp(1)
