@@ -22,9 +22,9 @@ class rock_paper_scissors:
     def rps(self, hand):
         if hand == 0:
             self.normal()
-        elif hand == 1:
+        elif hand == 1 or hand == 2:
             self.rock()
-        elif hand == 2:
+        elif hand == 3 or hand == 4:
             self.scissors()
         else:
             self.paper()
