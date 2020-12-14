@@ -298,7 +298,7 @@ class MyoRaw(object):
                 if (self.acc_tmp is not None) and (self.gyro_tmp is not None):
                     self.acc_array.append(self.acc_tmp)
                     self.gyro_array.append(self.gyro_tmp)
-                print(vals)
+                # print(vals)
 
             elif attr == 0x1c:
                 vals = unpack('10h', pay)

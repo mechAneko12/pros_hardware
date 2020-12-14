@@ -7,11 +7,16 @@
 
 
 from rps import rock_paper_scissors, control
+from predict_rps import predict_rps_int
 import rospy, time, tf
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Header
 
 import serial
+
+from myo_collector import MyoRaw
+import sys
+import numpy as np
 
 class STM_serial():
     def __init__(self, PORT):
@@ -573,21 +578,32 @@ class HJ_hand_tf():
 
 
 if __name__ == '__main__':
-    flag = False
-    if flag:
+    flag = True
+    serial_flag = False
+    N = 32
+    length_emg_array = 32 + 10
+    if serial_flag:
         stmser = STM_serial('/dev/ttyACM0')
-        hj_tf = HJ_hand_tf(flag)
-        from myo_collector import MyoRaw
-        import sys
-        m = MyoRaw(32, tty='/dev/ttyACM1')
+    hj_tf = HJ_hand_tf(serial_flag)
+
+    if flag:
+        rsp = rock_paper_scissors()
+        c = control(hj_tf)
+        
+        m = MyoRaw(length_emg_array, tty='/dev/ttyACM0')
+        predictor = predict_rps_int(N, 'nakashima_left')
 
         m.connect()
         while not rospy.is_shutdown():
             m.run(1)
+            emg = m.emg_array
+            if len(emg) == length_emg_array:
+                print(predictor.predict(m.emg_array))
+                fingers_state = rsp(predictor.predict(m.emg_array))
+                c.move(fingers_state)
+                m.emg_array.clear()
         m.disconnect()
-
-    else:
-        hj_tf = HJ_hand_tf(flag)
+        
 
     print ">> if you ready, press the Enter"
     raw_input()

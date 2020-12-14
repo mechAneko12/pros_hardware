@@ -1,7 +1,7 @@
 import time
 
 class rock_paper_scissors:
-    def __init__(self, MIN=0, MAX=0.012, velocity=0.0005):
+    def __init__(self, MIN=0, MAX=0.012, velocity=0.001):
         self.fingers_state = {'index_control' : None,
                              'middle_control' : None,
                              'ring_control' : None,
@@ -59,7 +59,7 @@ class rock_paper_scissors:
 
 
 class control:
-    def __init__(self, hj_tf, sleep_time = 0.05):
+    def __init__(self, hj_tf, sleep_time = 0.01):
         self.hj_tf = hj_tf
         self.stm_index_id = 0x01
         self.stm_middle_id = 0x02
