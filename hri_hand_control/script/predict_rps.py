@@ -55,7 +55,7 @@ class MLE:
 class predict_rps_int():
     def __init__(self, N, dataset_name):
         self.N = N
-        f = open(dataset_name+'/mle_data.json', 'r')
+        f = open('/home/naoki/hard_ws/src/HRI-Hand-ROS/' + dataset_name+'/mle_data.json', 'r')
         j = json.load(f)
         f.close()
         self.mle = MLE(method=j['method'], label=np.array(j['label']), mu=np.array(j['mu']), invS=np.array(j['invS']), S=np.array(j['S']))

@@ -124,11 +124,7 @@ The traceback for the exception was written to the log file` <br>
 >   $ ls -l /dev/serial/by-id/
 >   ```
 >   アドレスがあっているか確認した後、
->   chmod u+x /dev/tty
->   PyoManager.pyc
+>   sudo chmod u+x /dev/ttyACM?
+>   PyoManager.pyc <-いらない
 >   launch
 >   hri_joint_state_pub.py
-
->   今のままだとctrl+z からのkillしないと止まらない
-
-

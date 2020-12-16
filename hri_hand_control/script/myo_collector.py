@@ -265,7 +265,9 @@ class MyoRaw(object):
 
             ## send sensor parameters, or we don't get any data
             #self.write_attr(0x19, pack('BBBBHBBBBB', 2, 9, 2, 1, C, emg_smooth, C // emg_hz, imu_hz, 0, 0))
-            self.write_attr(0x19, b"\x01\03\03\01\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+
+            # \x01\03\emg\imu\classifier*\00\00\00\00\00\00\00\00\00\00\00\00\00\00 *classifier turns on in order not to sleep 
+            self.write_attr(0x19, b"\x01\03\03\01\01\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
 
         else:
             name = self.read_attr(0x03)
